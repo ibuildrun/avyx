@@ -1,9 +1,10 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, Mood } from '../types';
 import { MOOD_OPTIONS } from '../constants';
 import Avatar from '../components/Avatar';
 import SmartImage from '../components/SmartImage';
+import { api } from '../api/client';
 
 interface ProfileScreenProps {
   user: User;
@@ -11,6 +12,7 @@ interface ProfileScreenProps {
   onOpenMarketplace: () => void;
   onAddWork: () => void;
   onUpdateUser: (user: User) => void;
+  onOpenAdmin?: () => void;
 }
 
 const Icons = {
@@ -39,9 +41,18 @@ const Icons = {
   }
 };
 
-const ProfileScreen: React.FC<ProfileScreenProps> = ({ user, onEdit, onOpenMarketplace, onAddWork, onUpdateUser }) => {
+const ProfileScreen: React.FC<ProfileScreenProps> = ({ user, onEdit, onOpenMarketplace, onAddWork, onUpdateUser, onOpenAdmin }) => {
   const [activeTab, setActiveTab] = useState<'achievements' | 'works' | 'garden' | 'reviews' | 'about'>('achievements');
   const [isMoodPickerOpen, setIsMoodPickerOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    api.admin.checkAccess().then(res => {
+      if (res.success && res.data?.isAdmin) {
+        setIsAdmin(true);
+      }
+    });
+  }, []);
 
   const mockReviews = [
     { 
@@ -86,6 +97,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ user, onEdit, onOpenMarke
         >
            {user.bannerImage && <div className="absolute inset-0 bg-black/30"></div>}
            <div className="absolute top-6 right-6 flex gap-3 z-10">
+              {isAdmin && onOpenAdmin && (
+                <button 
+                  onClick={onOpenAdmin}
+                  className="p-3 bg-red-500/80 backdrop-blur-md rounded-2xl border border-white/30 text-white active:scale-90 transition-all"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                </button>
+              )}
               <button 
                 onClick={onOpenMarketplace}
                 className="p-3 bg-white/20 backdrop-blur-md rounded-2xl border border-white/30 text-white active:scale-90 transition-all"

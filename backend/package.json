@@ -10,7 +10,9 @@
     "start": "node dist/index.js",
     "type-check": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "setup-bot": "tsx scripts/setup-bot.ts",
+    "generate-logo": "tsx scripts/generate-logo.ts"
   },
   "dependencies": {
     "better-sqlite3": "^11.7.0",
@@ -28,6 +30,7 @@
     "@types/node-telegram-bot-api": "^0.64.7",
     "@types/uuid": "^10.0.0",
     "fast-check": "^3.23.2",
+    "sharp": "^0.34.5",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"

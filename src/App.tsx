@@ -16,6 +16,7 @@ import EditProfileScreen from './screens/EditProfileScreen';
 import MarketplaceScreen from './screens/MarketplaceScreen';
 import PortfolioWizardScreen from './screens/PortfolioWizardScreen';
 import SprintScreen from './screens/SprintScreen';
+import AdminScreen from './screens/AdminScreen';
 
 const HomeIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -166,7 +167,10 @@ const App: React.FC = () => {
           onOpenMarketplace={() => setCurrentScreen('marketplace')}
           onAddWork={() => setCurrentScreen('portfolio-wizard')}
           onUpdateUser={handleUserUpdate}
+          onOpenAdmin={() => setCurrentScreen('admin')}
         />;
+      case 'admin':
+        return <AdminScreen onBack={() => setCurrentScreen('profile')} />;
       case 'portfolio-wizard':
         return <PortfolioWizardScreen onSave={handleAddPortfolioWork} onBack={() => setCurrentScreen('profile')} />;
       case 'edit-profile':
@@ -190,13 +194,13 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="max-w-[428px] mx-auto min-h-screen flex flex-col relative overflow-hidden bg-[#FDFCFB]">
+    <div className="w-full h-full flex flex-col relative overflow-hidden bg-[#FDFCFB] tg-viewport">
       <main className="flex-1 overflow-y-auto pb-24">
         {renderScreen()}
       </main>
 
       {currentScreen !== 'onboarding' && currentScreen !== 'edit-profile' && currentScreen !== 'portfolio-wizard' && (
-        <nav className="fixed bottom-0 left-0 right-0 max-w-[428px] mx-auto bg-white/95 backdrop-blur-xl border-t border-gray-100 flex justify-around items-center h-20 px-4 pb-2 z-50">
+        <nav className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-gray-100 flex justify-around items-center h-20 px-4 pb-2 z-50">
           <button 
             onClick={() => setCurrentScreen('home')} 
             className={`flex flex-col items-center gap-1 transition-colors ${['home', 'task-detail', 'work-detail', 'notifications'].includes(currentScreen) ? 'text-[#FF7F50]' : 'text-gray-400'}`}

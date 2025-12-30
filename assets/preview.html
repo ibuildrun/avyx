@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AVYX Logo Preview</title>
+  <style>
+    body { 
+      font-family: system-ui; 
+      background: #1a1a1a; 
+      color: white;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+    .logo-container {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .logo-item {
+      text-align: center;
+    }
+    .logo-item img {
+      display: block;
+      margin-bottom: 10px;
+    }
+    h1 { color: #FF7F50; }
+    p { color: #888; font-size: 14px; }
+    .instructions {
+      background: #2a2a2a;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+    }
+    code { 
+      background: #333; 
+      padding: 2px 6px; 
+      border-radius: 4px;
+      color: #FF7F50;
+    }
+  </style>
+</head>
+<body>
+  <h1>AVYX Logo</h1>
+  
+  <div class="logo-container">
+    <div class="logo-item">
+      <img src="logo.svg" width="128" height="128" alt="Logo Rounded">
+      <p>Rounded (128px)</p>
+    </div>
+    <div class="logo-item">
+      <img src="logo-circle.svg" width="128" height="128" alt="Logo Circle">
+      <p>Circle (128px)</p>
+    </div>
+    <div class="logo-item">
+      <img src="logo.svg" width="64" height="64" alt="Logo Small">
+      <p>Small (64px)</p>
+    </div>
+    <div class="logo-item">
+      <img src="logo-circle.svg" width="64" height="64" alt="Logo Circle Small">
+      <p>Circle Small (64px)</p>
+    </div>
+  </div>
+
+  <div class="instructions">
+    <h3>Как установить аватар бота:</h3>
+    <ol>
+      <li>Откройте <code>logo-circle.svg</code> в браузере</li>
+      <li>Сделайте скриншот или экспортируйте в PNG (512x512)</li>
+      <li>Отправьте в @BotFather команду <code>/setuserpic</code></li>
+      <li>Выберите бота и загрузите PNG</li>
+    </ol>
+    <p>Или используйте онлайн конвертер: cloudconvert.com/svg-to-png</p>
+  </div>
+</body>
+</html>

@@ -418,4 +418,157 @@ export const api = {
       return { success: true, data: [] };
     },
   },
+
+  // Admin endpoints
+  admin: {
+    async checkAccess(): Promise<ApiResponse<{ isAdmin: boolean }>> {
+      if (!useRealBackend()) {
+        return { success: true, data: { isAdmin: false } };
+      }
+
+      try {
+        await request<unknown>('GET', '/../admin/api/stats');
+        return { success: true, data: { isAdmin: true } };
+      } catch {
+        return { success: true, data: { isAdmin: false } };
+      }
+    },
+
+    async getStats(): Promise<ApiResponse<{
+      users: number;
+      tasks: number;
+      reports: number;
+      payments: number;
+    }>> {
+      if (!useRealBackend()) {
+        return { success: false, error: 'Mock mode' };
+      }
+
+      try {
+        const headers: Record<string, string> = {
+          'Content-Type': 'application/json',
+        };
+        if (_initDataRaw) {
+          headers['X-Telegram-Init-Data'] = _initDataRaw;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/admin/api/stats`, { headers });
+        if (!response.ok) throw new Error('Access denied');
+        const data = await response.json();
+        return { success: true, data };
+      } catch (error) {
+        return { success: false, error: (error as Error).message };
+      }
+    },
+
+    async getReports(): Promise<ApiResponse<{ reports: Array<{
+      id: string;
+      content_type: string;
+      content_id: string;
+      reason: string;
+      description: string | null;
+      status: string;
+      created_at: string;
+    }> }>> {
+      if (!useRealBackend()) {
+        return { success: false, error: 'Mock mode' };
+      }
+
+      try {
+        const headers: Record<string, string> = {
+          'Content-Type': 'application/json',
+        };
+        if (_initDataRaw) {
+          headers['X-Telegram-Init-Data'] = _initDataRaw;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/admin/api/reports`, { headers });
+        if (!response.ok) throw new Error('Access denied');
+        const data = await response.json();
+        return { success: true, data };
+      } catch (error) {
+        return { success: false, error: (error as Error).message };
+      }
+    },
+
+    async processReport(reportId: string, action: string, reason?: string): Promise<ApiResponse<{ success: boolean }>> {
+      if (!useRealBackend()) {
+        return { success: false, error: 'Mock mode' };
+      }
+
+      try {
+        const headers: Record<string, string> = {
+          'Content-Type': 'application/json',
+        };
+        if (_initDataRaw) {
+          headers['X-Telegram-Init-Data'] = _initDataRaw;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/admin/api/reports/${reportId}`, {
+          method: 'PUT',
+          headers,
+          body: JSON.stringify({ action, reason }),
+        });
+        if (!response.ok) throw new Error('Failed to process report');
+        return { success: true, data: { success: true } };
+      } catch (error) {
+        return { success: false, error: (error as Error).message };
+      }
+    },
+
+    async getUsers(): Promise<ApiResponse<{ users: Array<{
+      id: number;
+      username: string | null;
+      first_name: string;
+      last_name: string | null;
+      status: string;
+      level: number;
+      created_at: string;
+    }> }>> {
+      if (!useRealBackend()) {
+        return { success: false, error: 'Mock mode' };
+      }
+
+      try {
+        const headers: Record<string, string> = {
+          'Content-Type': 'application/json',
+        };
+        if (_initDataRaw) {
+          headers['X-Telegram-Init-Data'] = _initDataRaw;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/admin/api/users`, { headers });
+        if (!response.ok) throw new Error('Access denied');
+        const data = await response.json();
+        return { success: true, data };
+      } catch (error) {
+        return { success: false, error: (error as Error).message };
+      }
+    },
+
+    async updateUser(userId: number, status: string, reason?: string): Promise<ApiResponse<{ success: boolean }>> {
+      if (!useRealBackend()) {
+        return { success: false, error: 'Mock mode' };
+      }
+
+      try {
+        const headers: Record<string, string> = {
+          'Content-Type': 'application/json',
+        };
+        if (_initDataRaw) {
+          headers['X-Telegram-Init-Data'] = _initDataRaw;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/admin/api/users/${userId}`, {
+          method: 'PUT',
+          headers,
+          body: JSON.stringify({ status, reason }),
+        });
+        if (!response.ok) throw new Error('Failed to update user');
+        return { success: true, data: { success: true } };
+      } catch (error) {
+        return { success: false, error: (error as Error).message };
+      }
+    },
+  },
 };

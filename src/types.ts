@@ -144,4 +144,4 @@ export interface PortfolioItem {
   views: number;
 }
 
-export type Screen = 'onboarding' | 'home' | 'search' | 'create' | 'missions' | 'profile' | 'task-detail' | 'portfolio-wizard' | 'work-detail' | 'notifications' | 'edit-profile' | 'marketplace' | 'sprint';
+export type Screen = 'onboarding' | 'home' | 'search' | 'create' | 'missions' | 'profile' | 'task-detail' | 'portfolio-wizard' | 'work-detail' | 'notifications' | 'edit-profile' | 'marketplace' | 'sprint' | 'admin';
