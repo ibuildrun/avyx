@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Screen, Task, User, CompletedWork, Badge, PortfolioItem } from './types';
 import { MOCK_MISSIONS, MOCK_SPRINT } from './constants';
+import { setInitData } from './api';
+import { useTelegram } from './providers/TelegramProvider';
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -50,14 +52,25 @@ const App: React.FC = () => {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [selectedWork, setSelectedWork] = useState<CompletedWork | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  
+  const { initDataRaw, isReady } = useTelegram();
+
+  // Set initData for API client when available
+  useEffect(() => {
+    if (initDataRaw) {
+      setInitData(initDataRaw);
+    }
+  }, [initDataRaw]);
 
   useEffect(() => {
+    if (!isReady) return;
+    
     const savedUser = localStorage.getItem('avyx_user');
     if (savedUser) {
       setUser(JSON.parse(savedUser));
       setCurrentScreen('home');
     }
-  }, []);
+  }, [isReady]);
 
   const checkLevelUp = (u: User): User => {
     let updated = { ...u };

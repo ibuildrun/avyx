@@ -3,9 +3,77 @@ export interface ApiResponse<T> {
   success: boolean;
   data?: T;
   error?: string;
+  message?: string;
 }
 
-// User API
+// Backend User (from API)
+export interface BackendUser {
+  id: number;
+  telegram_id: number;
+  username: string | null;
+  first_name: string;
+  last_name: string | null;
+  photo_url: string | null;
+  type: 'designer' | 'entrepreneur' | 'company';
+  level: number;
+  xp: number;
+  stars_balance: number;
+  status: 'active' | 'warned' | 'banned';
+  is_admin: number;
+  created_at: string;
+  updated_at: string;
+}
+
+// Backend Task (from API)
+export interface BackendTask {
+  id: string;
+  creator_id: number;
+  title: string;
+  description: string | null;
+  category: string | null;
+  budget_min: number | null;
+  budget_max: number | null;
+  deadline: string | null;
+  status: 'active' | 'hidden' | 'flagged' | 'deleted' | 'completed';
+  created_at: string;
+  updated_at: string;
+}
+
+// Backend Report
+export interface BackendReport {
+  id: string;
+  reporter_id: number;
+  content_type: 'task' | 'comment' | 'user' | 'work';
+  content_id: string;
+  reason: 'spam' | 'inappropriate' | 'fraud' | 'other';
+  description: string | null;
+  status: 'pending' | 'reviewed' | 'dismissed';
+  processed_by: number | null;
+  processed_at: string | null;
+  created_at: string;
+}
+
+// Backend Payment
+export interface BackendPayment {
+  id: string;
+  user_id: number;
+  amount: number;
+  currency: string;
+  status: 'pending' | 'completed' | 'failed';
+  telegram_payment_id: string | null;
+  description: string | null;
+  created_at: string;
+}
+
+// Create Report DTO
+export interface CreateReportDto {
+  content_type: 'task' | 'comment' | 'user' | 'work';
+  content_id: string;
+  reason: 'spam' | 'inappropriate' | 'fraud' | 'other';
+  description?: string;
+}
+
+// User API (frontend representation)
 export interface ApiUser {
   id: string;
   telegramId?: number;
@@ -34,7 +102,7 @@ export interface ApiUser {
   isHeroOfDay?: boolean;
 }
 
-// Task API
+// Task API (frontend representation)
 export interface ApiTask {
   id: string;
   title: string;

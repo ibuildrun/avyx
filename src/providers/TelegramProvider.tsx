@@ -8,6 +8,7 @@ import {
   mainButton,
   cloudStorage,
   initData,
+  retrieveLaunchParams,
   type User as TelegramUser,
 } from '@tma.js/sdk-react';
 
@@ -15,6 +16,7 @@ interface TelegramContextType {
   isReady: boolean;
   isTelegram: boolean;
   user: TelegramUser | null;
+  initDataRaw: string | null;
   themeParams: {
     bgColor: string;
     textColor: string;
@@ -50,6 +52,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
   const [isReady, setIsReady] = useState(false);
   const [isTelegram, setIsTelegram] = useState(false);
   const [user, setUser] = useState<TelegramUser | null>(null);
+  const [initDataRaw, setInitDataRaw] = useState<string | null>(null);
   const [theme, setTheme] = useState({
     bgColor: '#FDFCFB',
     textColor: '#2D3436',
@@ -70,6 +73,16 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
         if (isTg) {
           // Initialize TMA SDK
           init();
+          
+          // Get launch params including initDataRaw
+          try {
+            const launchParams = retrieveLaunchParams();
+            if (launchParams.initDataRaw && typeof launchParams.initDataRaw === 'string') {
+              setInitDataRaw(launchParams.initDataRaw);
+            }
+          } catch (e) {
+            console.warn('Could not retrieve launch params:', e);
+          }
           
           // Mount components
           if (miniApp.mount.isAvailable()) {
@@ -192,6 +205,7 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
         isReady,
         isTelegram,
         user,
+        initDataRaw,
         themeParams: theme,
         showMainButton,
         hideMainButton,

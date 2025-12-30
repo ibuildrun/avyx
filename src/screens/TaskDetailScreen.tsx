@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Task, User } from '../types';
 import Avatar from '../components/Avatar';
 import SmartImage from '../components/SmartImage';
+import ReportModal from '../components/ReportModal';
 
 interface TaskDetailScreenProps {
   task: Task;
@@ -25,6 +26,9 @@ const Icons = {
   ),
   Shield: () => (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+  ),
+  Flag: () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
   )
 };
 
@@ -32,6 +36,7 @@ const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({ task, user, onUpdat
   const [gameStatus, setGameStatus] = useState<GameStatus>(user.appliedTasks?.includes(task.id) ? 'submitted' : 'idle');
   const [promoCode, setPromoCode] = useState<string | null>(null);
   const [showEscrowInfo, setShowEscrowInfo] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   const generatePromoCode = () => Math.floor(10000 + Math.random() * 90000).toString();
 
@@ -194,6 +199,13 @@ const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({ task, user, onUpdat
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m15 18-6-6 6-6"/></svg>
         </button>
+        <button 
+          onClick={() => setShowReportModal(true)}
+          className="absolute top-6 right-6 bg-white/90 backdrop-blur p-4 rounded-3xl shadow-lg border border-white text-gray-400 hover:text-red-500 transition-colors"
+          title="Пожаловаться"
+        >
+          <Icons.Flag />
+        </button>
       </div>
 
       <div className="px-6 -mt-12 bg-[#FDFCFB] rounded-t-[52px] relative pt-10 pb-12 space-y-10">
@@ -303,6 +315,14 @@ const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({ task, user, onUpdat
             </div>
          </div>
       )}
+
+      {/* Report Modal */}
+      <ReportModal
+        isOpen={showReportModal}
+        onClose={() => setShowReportModal(false)}
+        contentType="task"
+        contentId={task.id}
+      />
     </div>
   );
 };

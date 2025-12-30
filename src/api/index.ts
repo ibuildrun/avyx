@@ -1,3 +1,3 @@
 export * from './types';
 export * from './storage';
-export { api } from './client';
+export { api, setInitData, getInitData } from './client';
