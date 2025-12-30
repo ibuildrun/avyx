@@ -32,6 +32,8 @@ interface TelegramContextType {
   cloudGet: (key: string) => Promise<string | null>;
   cloudSet: (key: string, value: string) => Promise<void>;
   expand: () => void;
+  setHeaderColor: (color: string) => void;
+  setBackgroundColor: (color: string) => void;
 }
 
 const TelegramContext = createContext<TelegramContextType | null>(null);
@@ -88,6 +90,19 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
           if (miniApp.mount.isAvailable()) {
             miniApp.mount();
             miniApp.ready();
+            
+            // Set custom header and background colors
+            const webApp = (window as any).Telegram?.WebApp;
+            if (webApp) {
+              // Set header color (top bar)
+              if (webApp.setHeaderColor) {
+                webApp.setHeaderColor('#FDFCFB');
+              }
+              // Set background color
+              if (webApp.setBackgroundColor) {
+                webApp.setBackgroundColor('#FDFCFB');
+              }
+            }
           }
           
           if (viewport.mount.isAvailable()) {
@@ -199,6 +214,24 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
     }
   };
 
+  const setHeaderColor = (color: string) => {
+    if (isTelegram) {
+      const webApp = (window as any).Telegram?.WebApp;
+      if (webApp?.setHeaderColor) {
+        webApp.setHeaderColor(color);
+      }
+    }
+  };
+
+  const setBackgroundColor = (color: string) => {
+    if (isTelegram) {
+      const webApp = (window as any).Telegram?.WebApp;
+      if (webApp?.setBackgroundColor) {
+        webApp.setBackgroundColor(color);
+      }
+    }
+  };
+
   return (
     <TelegramContext.Provider
       value={{
@@ -215,6 +248,8 @@ export const TelegramProvider: React.FC<TelegramProviderProps> = ({ children }) 
         cloudGet,
         cloudSet,
         expand,
+        setHeaderColor,
+        setBackgroundColor,
       }}
     >
       {children}
