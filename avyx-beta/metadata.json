@@ -1,7 +1,0 @@
-{
-  "name": "AVYX Beta",
-  "description": "A creative platform for artists and designers to find commercial tasks, earn money, and grow through missions.",
-  "requestFramePermissions": [
-    "geolocation"
-  ]
-}
