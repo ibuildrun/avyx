@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Sprint, User, SprintSubmission } from '../types';
+import { Sprint, User } from '../types';
 import Avatar from '../components/Avatar';
 import SmartImage from '../components/SmartImage';
 

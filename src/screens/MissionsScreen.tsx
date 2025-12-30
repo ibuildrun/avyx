@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Mission, Sprint } from '../types';
+import { Mission } from '../types';
 import { LEADERBOARD, MOCK_SPRINT } from '../constants';
 
 interface MissionsScreenProps {
@@ -76,7 +76,7 @@ const MissionsScreen: React.FC<MissionsScreenProps> = ({ missions, onSprintOpen 
               </div>
               <div className="flex items-center justify-between pt-2">
                  <div className="flex -space-x-2">
-                    {MOCK_SPRINT.submissions.map((s, idx) => (
+                    {MOCK_SPRINT.submissions.map((s) => (
                        <div key={s.id} className="w-7 h-7 rounded-full border-2 border-white overflow-hidden bg-gray-100">
                           <img src={s.userAvatar} className="w-full h-full object-cover" />
                        </div>

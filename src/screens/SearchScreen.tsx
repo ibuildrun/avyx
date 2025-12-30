@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Task, Category, Screen, User } from '../types';
+import { Task, Category, User } from '../types';
 import { MOCK_TASKS, MOCK_USERS } from '../constants';
 import Avatar from '../components/Avatar';
 
@@ -13,8 +13,7 @@ interface SearchScreenProps {
 type BudgetFilter = 'all' | 'low' | 'mid' | 'high';
 type DifficultyFilter = 'all' | 'easy' | 'medium' | 'hard';
 
-// Fix: Destructured user from props
-const SearchScreen: React.FC<SearchScreenProps> = ({ user, onTaskSelect }) => {
+const SearchScreen: React.FC<SearchScreenProps> = ({ onTaskSelect }) => {
   const [selectedCategory, setSelectedCategory] = useState<Category>('Все');
   const [searchQuery, setSearchQuery] = useState('');
   const [budgetFilter, setBudgetFilter] = useState<BudgetFilter>('all');
@@ -72,16 +71,6 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ user, onTaskSelect }) => {
     setBudgetFilter('all');
     setDiffFilter('all');
     setSearchQuery('');
-  };
-
-  const renderDifficulty = (level: number) => {
-    return (
-      <div className="flex gap-0.5">
-        {[1,2,3,4,5].map(i => (
-          <div key={i} className={`w-1.5 h-1.5 rounded-full ${i <= level ? 'bg-[#FF7F50]' : 'bg-gray-200'}`}></div>
-        ))}
-      </div>
-    );
   };
 
   return (
