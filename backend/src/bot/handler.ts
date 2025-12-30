@@ -10,22 +10,33 @@ export class BotHandler {
     const token = process.env.TELEGRAM_BOT_TOKEN || '';
     this.bot = new TelegramBot(token);
     this.db = db;
-    this.webAppUrl = process.env.FRONTEND_URL || 'https://4n395k-178-208-232-210.ru.tuna.am';
+    this.webAppUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  }
+
+  async setupCommands(): Promise<void> {
+    try {
+      await this.bot.setMyCommands([
+        { command: 'start', description: 'Запустить приложение' },
+        { command: 'help', description: 'Показать справку' },
+        { command: 'profile', description: 'Мой профиль' },
+        { command: 'tasks', description: 'Мои заказы' }
+      ]);
+      console.log('Bot commands set successfully');
+    } catch (error) {
+      console.error('Failed to set bot commands:', error);
+    }
   }
 
   async handleUpdate(update: TelegramBot.Update): Promise<void> {
     try {
-      // Handle commands
       if (update.message?.text) {
         await this.handleMessage(update.message);
       }
 
-      // Handle pre-checkout query (Telegram Stars)
       if (update.pre_checkout_query) {
         await this.handlePreCheckout(update.pre_checkout_query);
       }
 
-      // Handle successful payment
       if (update.message?.successful_payment) {
         await this.handleSuccessfulPayment(update.message);
       }
@@ -41,7 +52,6 @@ export class BotHandler {
 
     if (!user) return;
 
-    // Ensure user exists in DB
     this.db.getOrCreateUser({
       id: user.id,
       first_name: user.first_name,
@@ -49,7 +59,6 @@ export class BotHandler {
       username: user.username
     });
 
-    // Handle commands
     if (text.startsWith('/start')) {
       await this.handleStart(chatId);
     } else if (text.startsWith('/help')) {
@@ -64,50 +73,72 @@ export class BotHandler {
   }
 
   private async handleStart(chatId: number): Promise<void> {
-    const welcomeText = `🎨 <b>Добро пожаловать в AVYX!</b>
+    const welcomeText = `<b>Добро пожаловать в AVYX!</b>
 
-Маркетплейс для дизайнеров и художников с геймификацией.
+Креативная платформа для дизайнеров, художников и заказчиков.
 
-✨ Находи заказы на UI/UX, логотипы, иллюстрации
-🎮 Зарабатывай XP и повышай уровень
-⚡ Участвуй в ежедневных спринтах
-🛡️ Безопасные сделки через эскроу
+<b>Что вас ждет:</b>
+- Заказы на UI/UX дизайн, логотипы, иллюстрации и графику
+- Система уровней и достижений за выполненные работы
+- Ежедневные творческие спринты с призами
+- Безопасные сделки через встроенный эскроу
+- Портфолио и рейтинг исполнителей
 
-Нажми кнопку ниже, чтобы открыть приложение!`;
+<b>Как начать:</b>
+1. Откройте приложение по кнопке ниже
+2. Заполните профиль и укажите свои навыки
+3. Начните искать заказы или создайте свой
+
+Нажмите кнопку, чтобы открыть приложение!`;
 
     await this.bot.sendMessage(chatId, welcomeText, {
       parse_mode: 'HTML',
       reply_markup: {
         inline_keyboard: [[
-          { text: '🚀 Открыть AVYX', web_app: { url: this.webAppUrl } }
+          { text: 'Открыть AVYX', web_app: { url: this.webAppUrl } }
         ]]
       }
     });
   }
 
   private async handleHelp(chatId: number): Promise<void> {
-    const helpText = `❓ <b>Помощь AVYX</b>
+    const helpText = `<b>Справка по AVYX</b>
 
 <b>Доступные команды:</b>
-/start — Запустить приложение
-/help — Показать эту справку
-/profile — Мой профиль
-/tasks — Мои заказы
+/start - Запустить приложение и получить приветствие
+/help - Показать эту справку с описанием функций
+/profile - Посмотреть свой профиль, уровень и статистику
+/tasks - Список ваших активных заказов
 
-<b>Как пользоваться:</b>
-1. Откройте приложение через кнопку меню
-2. Заполните профиль
-3. Ищите заказы или создавайте свои
-4. Выполняйте миссии и получайте награды
+<b>Основные возможности платформы:</b>
+
+<b>Для дизайнеров:</b>
+- Находите заказы по своей специализации
+- Откликайтесь на интересные проекты
+- Получайте XP и повышайте уровень
+- Участвуйте в ежедневных спринтах
+- Собирайте бейджи и достижения
+
+<b>Для заказчиков:</b>
+- Создавайте заказы с подробным описанием
+- Выбирайте исполнителей по рейтингу и портфолио
+- Безопасные сделки через эскроу
+- Оставляйте отзывы о работе
+
+<b>Геймификация:</b>
+- Stars — внутренняя валюта платформы
+- XP и уровни за активность
+- Бейджи за достижения
+- Ежедневные миссии и квесты
 
 <b>Поддержка:</b>
-Если у вас возникли проблемы, напишите нам: @avyx_support`;
+Если возникли вопросы или проблемы, напишите нам: @avyx_support`;
 
     await this.bot.sendMessage(chatId, helpText, {
       parse_mode: 'HTML',
       reply_markup: {
         inline_keyboard: [[
-          { text: '📱 Открыть приложение', web_app: { url: this.webAppUrl } }
+          { text: 'Открыть приложение', web_app: { url: this.webAppUrl } }
         ]]
       }
     });
@@ -117,34 +148,34 @@ export class BotHandler {
     const user = this.db.getUserByTelegramId(telegramId);
 
     if (!user) {
-      await this.bot.sendMessage(chatId, '❌ Профиль не найден. Откройте приложение для регистрации.', {
+      await this.bot.sendMessage(chatId, 'Профиль не найден. Откройте приложение для регистрации.', {
         reply_markup: {
           inline_keyboard: [[
-            { text: '📱 Открыть AVYX', web_app: { url: this.webAppUrl } }
+            { text: 'Открыть AVYX', web_app: { url: this.webAppUrl } }
           ]]
         }
       });
       return;
     }
 
-    const profileText = `👤 <b>Ваш профиль</b>
+    const profileText = `<b>Ваш профиль</b>
 
 <b>Имя:</b> ${user.first_name}${user.last_name ? ' ' + user.last_name : ''}
 <b>Username:</b> ${user.username ? '@' + user.username : 'не указан'}
 <b>Тип:</b> ${this.getUserTypeLabel(user.type)}
 
-📊 <b>Статистика:</b>
-⭐ Уровень: ${user.level}
-✨ XP: ${user.xp}
-💫 Stars: ${user.stars_balance}
+<b>Статистика:</b>
+Уровень: ${user.level}
+XP: ${user.xp}
+Stars: ${user.stars_balance}
 
-📅 Зарегистрирован: ${new Date(user.created_at).toLocaleDateString('ru-RU')}`;
+Зарегистрирован: ${new Date(user.created_at).toLocaleDateString('ru-RU')}`;
 
     await this.bot.sendMessage(chatId, profileText, {
       parse_mode: 'HTML',
       reply_markup: {
         inline_keyboard: [[
-          { text: '✏️ Редактировать', web_app: { url: `${this.webAppUrl}?screen=profile` } }
+          { text: 'Редактировать', web_app: { url: `${this.webAppUrl}?screen=profile` } }
         ]]
       }
     });
@@ -154,30 +185,30 @@ export class BotHandler {
     const user = this.db.getUserByTelegramId(telegramId);
 
     if (!user) {
-      await this.bot.sendMessage(chatId, '❌ Сначала откройте приложение для регистрации.');
+      await this.bot.sendMessage(chatId, 'Сначала откройте приложение для регистрации.');
       return;
     }
 
     const tasks = this.db.getUserTasks(user.id, 5);
 
     if (tasks.length === 0) {
-      await this.bot.sendMessage(chatId, '📋 У вас пока нет заказов.\n\nСоздайте первый заказ в приложении!', {
+      await this.bot.sendMessage(chatId, 'У вас пока нет заказов.\n\nСоздайте первый заказ в приложении!', {
         reply_markup: {
           inline_keyboard: [[
-            { text: '➕ Создать заказ', web_app: { url: `${this.webAppUrl}?screen=create` } }
+            { text: 'Создать заказ', web_app: { url: `${this.webAppUrl}?screen=create` } }
           ]]
         }
       });
       return;
     }
 
-    let tasksText = '📋 <b>Ваши заказы:</b>\n\n';
+    let tasksText = '<b>Ваши заказы:</b>\n\n';
     
     tasks.forEach((task, index) => {
-      const statusEmoji = this.getTaskStatusEmoji(task.status);
-      tasksText += `${index + 1}. ${statusEmoji} <b>${task.title}</b>\n`;
+      const statusLabel = this.getTaskStatusLabel(task.status);
+      tasksText += `${index + 1}. [${statusLabel}] <b>${task.title}</b>\n`;
       if (task.budget_min || task.budget_max) {
-        tasksText += `   💰 ${task.budget_min || '?'} - ${task.budget_max || '?'} ₽\n`;
+        tasksText += `   Бюджет: ${task.budget_min || '?'} - ${task.budget_max || '?'} руб.\n`;
       }
       tasksText += '\n';
     });
@@ -186,18 +217,17 @@ export class BotHandler {
       parse_mode: 'HTML',
       reply_markup: {
         inline_keyboard: [[
-          { text: '📱 Все заказы', web_app: { url: `${this.webAppUrl}?screen=tasks` } }
+          { text: 'Все заказы', web_app: { url: `${this.webAppUrl}?screen=tasks` } }
         ]]
       }
     });
   }
 
   private async handleUnknown(chatId: number): Promise<void> {
-    await this.bot.sendMessage(chatId, '❓ Неизвестная команда.\n\nИспользуйте /help для списка доступных команд.');
+    await this.bot.sendMessage(chatId, 'Неизвестная команда.\n\nИспользуйте /help для списка доступных команд.');
   }
 
   private async handlePreCheckout(query: TelegramBot.PreCheckoutQuery): Promise<void> {
-    // Always approve for MVP (add validation logic later)
     await this.bot.answerPreCheckoutQuery(query.id, true);
   }
 
@@ -208,11 +238,9 @@ export class BotHandler {
     const user = this.db.getUserByTelegramId(message.from.id);
     if (!user) return;
 
-    // Credit stars to user
-    const amount = payment.total_amount; // In smallest units
+    const amount = payment.total_amount;
     this.db.addStars(user.id, amount);
 
-    // Create payment record
     this.db.createPayment({
       id: crypto.randomUUID(),
       user_id: user.id,
@@ -223,31 +251,29 @@ export class BotHandler {
       description: payment.invoice_payload
     });
 
-    await this.bot.sendMessage(message.chat.id, `✅ Оплата успешна!\n\n💫 +${amount} Stars зачислено на ваш баланс.`);
+    await this.bot.sendMessage(message.chat.id, `Оплата успешна!\n\n+${amount} Stars зачислено на ваш баланс.`);
   }
 
-  // Helper methods
   private getUserTypeLabel(type: string): string {
     const labels: Record<string, string> = {
-      designer: '🎨 Дизайнер',
-      entrepreneur: '💼 Предприниматель',
-      company: '🏢 Компания'
+      designer: 'Дизайнер',
+      entrepreneur: 'Предприниматель',
+      company: 'Компания'
     };
     return labels[type] || type;
   }
 
-  private getTaskStatusEmoji(status: string): string {
-    const emojis: Record<string, string> = {
-      active: '🟢',
-      completed: '✅',
-      hidden: '🔒',
-      flagged: '⚠️',
-      deleted: '❌'
+  private getTaskStatusLabel(status: string): string {
+    const labels: Record<string, string> = {
+      active: 'Активен',
+      completed: 'Завершен',
+      hidden: 'Скрыт',
+      flagged: 'На модерации',
+      deleted: 'Удален'
     };
-    return emojis[status] || '⚪';
+    return labels[status] || status;
   }
 
-  // Public methods for sending messages
   async sendMessage(chatId: number, text: string, options?: TelegramBot.SendMessageOptions): Promise<void> {
     await this.bot.sendMessage(chatId, text, options);
   }
@@ -264,15 +290,14 @@ export class BotHandler {
     }
   }
 
-  // Create invoice for Telegram Stars
   async createInvoice(chatId: number, title: string, description: string, payload: string, amount: number): Promise<string> {
     const result = await this.bot.sendInvoice(
       chatId,
       title,
       description,
       payload,
-      '', // provider_token empty for Telegram Stars
-      'XTR', // Telegram Stars currency
+      '',
+      'XTR',
       [{ label: title, amount }]
     );
     return result.message_id.toString();

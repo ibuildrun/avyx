@@ -22,6 +22,9 @@ const db = new Database();
 // Initialize bot
 const bot = new BotHandler(db);
 
+// Setup bot commands
+bot.setupCommands().catch(console.error);
+
 // Health check
 app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -47,9 +50,10 @@ app.use((err: Error, _req: express.Request, res: express.Response, _next: expres
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 AVYX Backend running on port ${PORT}`);
-  console.log(`📡 Webhook endpoint: /webhook`);
-  console.log(`🔧 Admin panel: /admin`);
+  console.log(`AVYX Backend running on port ${PORT}`);
+  console.log(`Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:3000'}`);
+  console.log(`Webhook endpoint: /webhook`);
+  console.log(`Admin panel: /admin`);
 });
 
 export { app, db };
