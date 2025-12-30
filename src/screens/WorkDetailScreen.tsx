@@ -94,7 +94,7 @@ const WorkDetailScreen: React.FC<WorkDetailScreenProps> = ({ work, onBack }) => 
         <section className="space-y-6">
            <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Комментарии</h3>
            
-           <div className="space-y-4">
+           <div className="space-y-4 pb-32">
               {work.comments.length > 0 ? work.comments.map(comment => (
                 <div key={comment.id} className="flex gap-4 group">
                    <img src={comment.avatar} className="w-10 h-10 rounded-full border-2 border-white shadow-sm flex-shrink-0" alt="" />
@@ -105,7 +105,7 @@ const WorkDetailScreen: React.FC<WorkDetailScreenProps> = ({ work, onBack }) => 
                            <span className="text-[8px] text-gray-300 font-bold">{comment.date}</span>
                            <button 
                              onClick={() => handleReportComment(comment.id)}
-                             className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 transition-all p-1"
+                             className="text-gray-300 hover:text-red-500 active:scale-90 transition-all p-1"
                              title="Пожаловаться на комментарий"
                            >
                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></svg>
@@ -124,8 +124,8 @@ const WorkDetailScreen: React.FC<WorkDetailScreenProps> = ({ work, onBack }) => 
            </div>
         </section>
 
-        {/* Sticky Comment Input */}
-        <div className="fixed bottom-0 left-0 right-0 max-w-[428px] mx-auto p-4 bg-white/90 backdrop-blur-xl border-t border-gray-50 flex gap-3 items-center z-[60]">
+        {/* Sticky Comment Input - above bottom nav */}
+        <div className="fixed bottom-20 left-0 right-0 max-w-[428px] mx-auto p-4 bg-white/95 backdrop-blur-xl border-t border-gray-100 flex gap-3 items-center z-[60]">
            <input 
              type="text" 
              placeholder="Напиши что-нибудь вдохновляющее..."
