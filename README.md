@@ -11,35 +11,33 @@
 [![Deploy](https://github.com/ibuildrun/avyx/actions/workflows/deploy.yml/badge.svg)](https://github.com/ibuildrun/avyx/actions/workflows/deploy.yml)
 [![Release](https://img.shields.io/github/v/release/ibuildrun/avyx?include_prereleases)](https://github.com/ibuildrun/avyx/releases)
 
-[🇷🇺 Русский](#-о-проекте) | [🇬🇧 English](#-about)
-
-<img src="assets/logo-rounded-512.png" alt="AVYX Logo" width="120" />
+[Русский](#о-проекте) | [English](#about)
 
 </div>
 
 ---
 
-## 🇷🇺 О проекте
+## О проекте
 
 AVYX — маркетплейс заказов для дизайнеров с геймификацией. Находи заказы, зарабатывай и расти через систему миссий и достижений.
 
-### ✨ Возможности
+### Возможности
 
-- **Маркетплейс заказов** — UI/UX, логотипы, иллюстрации, графика
-- **Геймификация** — XP, уровни, бейджи, стрики
-- **Спринты** — ежедневные творческие челленджи
-- **Эскроу** — безопасные сделки через Telegram Stars
-- **Telegram Stars** — оплата внутри приложения
+- Маркетплейс заказов — UI/UX, логотипы, иллюстрации, графика
+- Геймификация — XP, уровни, бейджи, стрики
+- Спринты — ежедневные творческие челленджи
+- Эскроу — безопасные сделки через Telegram Stars
+- Telegram Stars — оплата внутри приложения
 
-### 👥 Типы пользователей
+### Типы пользователей
 
 | Тип | Описание |
 |-----|----------|
-| 🎨 Designer | Исполнители заказов |
-| 💼 Entrepreneur | Частные заказчики |
-| 🏢 Company | Компании |
+| Designer | Исполнители заказов |
+| Entrepreneur | Частные заказчики |
+| Company | Компании |
 
-### 🚀 Быстрый старт
+### Быстрый старт
 
 ```bash
 # Клонировать
@@ -56,7 +54,7 @@ npm install
 npm run dev
 ```
 
-### 🐳 Docker
+### Docker
 
 ```bash
 # Production
@@ -66,14 +64,14 @@ docker-compose up
 docker-compose --profile dev up
 ```
 
-### 📱 Тестирование в Telegram
+### Тестирование в Telegram
 
 ```bash
 # HTTPS туннель
 tuna http 3000
 ```
 
-### 🛠 Технологии
+### Технологии
 
 | Frontend | Backend |
 |----------|---------|
@@ -85,27 +83,27 @@ tuna http 3000
 
 ---
 
-## 🇬🇧 About
+## About
 
 AVYX is a gamified marketplace for designers. Find orders, earn money, and grow through missions and achievements.
 
-### ✨ Features
+### Features
 
-- **Order Marketplace** — UI/UX, logos, illustrations, graphics
-- **Gamification** — XP, levels, badges, streaks
-- **Sprints** — daily creative challenges
-- **Escrow** — secure deals via Telegram Stars
-- **Telegram Stars** — in-app payments
+- Order Marketplace — UI/UX, logos, illustrations, graphics
+- Gamification — XP, levels, badges, streaks
+- Sprints — daily creative challenges
+- Escrow — secure deals via Telegram Stars
+- Telegram Stars — in-app payments
 
-### 👥 User Types
+### User Types
 
 | Type | Description |
 |------|-------------|
-| 🎨 Designer | Order executors |
-| 💼 Entrepreneur | Individual clients |
-| 🏢 Company | Business clients |
+| Designer | Order executors |
+| Entrepreneur | Individual clients |
+| Company | Business clients |
 
-### 🚀 Quick Start
+### Quick Start
 
 ```bash
 # Clone
@@ -122,7 +120,7 @@ npm install
 npm run dev
 ```
 
-### 🐳 Docker
+### Docker
 
 ```bash
 # Production
@@ -132,14 +130,14 @@ docker-compose up
 docker-compose --profile dev up
 ```
 
-### 📱 Testing in Telegram
+### Testing in Telegram
 
 ```bash
 # HTTPS tunnel
 tuna http 3000
 ```
 
-### 🛠 Tech Stack
+### Tech Stack
 
 | Frontend | Backend |
 |----------|---------|
@@ -151,7 +149,7 @@ tuna http 3000
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 avyx/
@@ -171,7 +169,7 @@ avyx/
 └── Dockerfile
 ```
 
-## 📜 Scripts
+## Scripts
 
 | Command | Description |
 |---------|-------------|
@@ -180,7 +178,7 @@ avyx/
 | `npm run type-check` | TypeScript check |
 | `cd backend && npm run dev` | Start backend |
 
-## 📄 License
+## License
 
 MIT — see [LICENSE](LICENSE)
 
@@ -188,8 +186,6 @@ MIT — see [LICENSE](LICENSE)
 
 <div align="center">
 
-**[Open AVYX in Telegram →](https://t.me/anyx_robot)** | **[Demo →](https://ibuildrun.github.io/avyx/)**
-
-Made with ❤️ by AVYX Team
+**[Open AVYX in Telegram](https://t.me/anyx_robot)** | **[Demo](https://ibuildrun.github.io/avyx/)**
 
 </div>
