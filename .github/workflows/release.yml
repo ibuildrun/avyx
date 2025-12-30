@@ -24,28 +24,57 @@ jobs:
           node-version: '20.x'
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
         run: npm ci
 
-      - name: Build
+      - name: Build frontend
         run: npm run build
 
-      - name: Create release archive
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Build backend
+        working-directory: backend
+        run: npm run build
+
+      - name: Create release archives
         run: |
           cd dist
-          zip -r ../avyx-beta-${{ github.ref_name }}.zip .
+          zip -r ../avyx-frontend-${{ github.ref_name }}.zip .
+          cd ../backend/dist
+          zip -r ../../avyx-backend-${{ github.ref_name }}.zip .
 
       - name: Generate changelog
         id: changelog
         run: |
-          echo "## Changes in ${{ github.ref_name }}" > RELEASE_NOTES.md
-          git log $(git describe --tags --abbrev=0 HEAD^)..HEAD --pretty=format:"- %s" >> RELEASE_NOTES.md || echo "- Initial release" >> RELEASE_NOTES.md
+          VERSION=${{ github.ref_name }}
+          echo "## Changes in ${VERSION}" > RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          
+          # Get previous tag
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          
+          if [ -n "$PREV_TAG" ]; then
+            echo "### Commits" >> RELEASE_NOTES.md
+            git log ${PREV_TAG}..HEAD --pretty=format:"- %s (%h)" >> RELEASE_NOTES.md
+          else
+            echo "- Initial release" >> RELEASE_NOTES.md
+          fi
+          
+          echo "" >> RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          echo "### Downloads" >> RELEASE_NOTES.md
+          echo "- \`avyx-frontend-${VERSION}.zip\` - Production frontend build" >> RELEASE_NOTES.md
+          echo "- \`avyx-backend-${VERSION}.zip\` - Production backend build" >> RELEASE_NOTES.md
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           body_path: RELEASE_NOTES.md
-          files: avyx-beta-${{ github.ref_name }}.zip
+          files: |
+            avyx-frontend-${{ github.ref_name }}.zip
+            avyx-backend-${{ github.ref_name }}.zip
           draft: false
           prerelease: ${{ contains(github.ref_name, 'beta') || contains(github.ref_name, 'alpha') }}
         env:
