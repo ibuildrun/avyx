@@ -9,9 +9,44 @@ services:
     ports:
       - "3000:3000"
     command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    depends_on:
+      - backend-dev
+
+  # Backend API (production)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - backend_data:/data
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - ADMIN_IDS=${ADMIN_IDS}
+      - FRONTEND_URL=http://localhost:3000
+      - NODE_ENV=production
+    restart: unless-stopped
+    profiles:
+      - prod
+
+  # Backend development mode
+  backend-dev:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+      - backend_node_modules:/app/node_modules
+    ports:
+      - "3001:3001"
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - ADMIN_IDS=${ADMIN_IDS}
+      - FRONTEND_URL=http://localhost:3000
+      - NODE_ENV=development
+    command: sh -c "npm install && npm run dev"
 
   # Tuna tunnel for HTTPS (Telegram Web App)
-  # Run separately: docker-compose up tunnel
   tunnel:
     image: alpine:latest
     network_mode: host
@@ -21,8 +56,8 @@ services:
       sh -c "
         apk add --no-cache curl bash &&
         curl -sSL https://get.tuna.am | bash &&
-        echo '🚀 Tuna tunnel starting on port 3000...' &&
-        tuna http 3000 --token=$${TUNA_TOKEN}
+        echo 'Tuna tunnel starting on port 3000...' &&
+        tuna http 3000 --token=${TUNA_TOKEN}
       "
 
   # Production build (nginx)
@@ -33,11 +68,15 @@ services:
     ports:
       - "3000:80"
     restart: unless-stopped
+    depends_on:
+      - backend
     profiles:
       - prod
 
 volumes:
   node_modules:
+  backend_node_modules:
+  backend_data:
 
 networks:
   default:
