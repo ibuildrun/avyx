@@ -5,6 +5,36 @@
 Формат основан на [Keep a Changelog](https://keepachangelog.com/ru/1.0.0/),
 и проект придерживается [Semantic Versioning](https://semver.org/lang/ru/).
 
+## [1.0.4-beta] - 2024-12-30
+
+### Добавлено
+
+- Кастомные цвета header и background для Telegram WebApp
+- Функции `setHeaderColor` и `setBackgroundColor` в TelegramProvider
+- Кнопка "Пожаловаться" на задачи, работы и комментарии
+- Интеграция frontend с backend API
+- Поддержка initData для авторизации в Telegram
+
+### Исправлено
+
+- Позиция поля ввода комментария (теперь выше навигации)
+- Видимость кнопок жалоб на комментарии
+- Docker tunnel для Windows (network_mode → depends_on)
+- Backend теперь читает FRONTEND_URL из env_file
+
+## [1.0.3-beta] - 2024-12-30
+
+### Добавлено
+
+- Билингвальный README (русский/английский)
+- Бейджи CI/Deploy/Release в README
+- Ссылка на Telegram бота в README
+- GitHub Pages деплой
+
+### Исправлено
+
+- CI/CD для монорепозитория (frontend + backend)
+
 ## [1.0.0] - 2024-12-30
 
 ### Добавлено
