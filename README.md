@@ -1,106 +1,193 @@
-# AVYX — Telegram Web App для дизайнеров
-
 <div align="center">
-  
-  **Креативная платформа для дизайнеров и художников**
-  
-  [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-  [![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org)
-  [![React](https://img.shields.io/badge/react-19.x-61dafb.svg)](https://reactjs.org)
-  [![Telegram](https://img.shields.io/badge/telegram-web%20app-0088cc.svg)](https://core.telegram.org/bots/webapps)
+
+# AVYX
+
+**Telegram Mini App для дизайнеров и художников**
+
+[![Open in Telegram](https://img.shields.io/badge/Open%20App-Telegram-0088cc?style=for-the-badge&logo=telegram)](https://t.me/anyx_robot)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/ibuildrun/avyx/actions/workflows/ci.yml/badge.svg)](https://github.com/ibuildrun/avyx/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/ibuildrun/avyx?include_prereleases)](https://github.com/ibuildrun/avyx/releases)
+
+[🇷🇺 Русский](#-о-проекте) | [🇬🇧 English](#-about)
+
+<img src="assets/logo-rounded-512.png" alt="AVYX Logo" width="120" />
+
 </div>
 
-## О проекте
+---
 
-AVYX — Telegram Mini App где дизайнеры находят заказы, зарабатывают и растут через систему миссий и достижений.
+## 🇷🇺 О проекте
 
-### Возможности
+AVYX — маркетплейс заказов для дизайнеров с геймификацией. Находи заказы, зарабатывай и расти через систему миссий и достижений.
+
+### ✨ Возможности
 
 - **Маркетплейс заказов** — UI/UX, логотипы, иллюстрации, графика
-- **Система достижений** — бейджи, уровни, XP
+- **Геймификация** — XP, уровни, бейджи, стрики
 - **Спринты** — ежедневные творческие челленджи
-- **Эскроу** — безопасные сделки
+- **Эскроу** — безопасные сделки через Telegram Stars
+- **Telegram Stars** — оплата внутри приложения
 
-## Быстрый старт
+### 👥 Типы пользователей
 
-### Требования
+| Тип | Описание |
+|-----|----------|
+| 🎨 Designer | Исполнители заказов |
+| 💼 Entrepreneur | Частные заказчики |
+| 🏢 Company | Компании |
 
-- Node.js >= 18.0.0
-- Docker & Docker Compose
-
-### Локальная разработка
+### 🚀 Быстрый старт
 
 ```bash
-# Клонировать репозиторий
+# Клонировать
 git clone https://github.com/ibuildrun/avyx.git
 cd avyx
 
-# Установить зависимости
+# Frontend
 npm install
+npm run dev
 
-# Запустить dev-сервер
+# Backend
+cd backend
+npm install
 npm run dev
 ```
 
-**Локальный URL:** http://localhost:3000
-
-### Docker
+### 🐳 Docker
 
 ```bash
-# Production сборка
-docker-compose up web
+# Production
+docker-compose up
 
-# Development с hot reload
-docker-compose --profile dev up web-dev
+# Development
+docker-compose --profile dev up
 ```
 
-**Docker URL:** http://localhost:3000
-
-### Тестирование в Telegram
-
-Для теста в Telegram нужен HTTPS:
+### 📱 Тестирование в Telegram
 
 ```bash
-# Через tuna
+# HTTPS туннель
 tuna http 3000
 ```
 
-Полученный HTTPS URL указать в BotFather при создании Web App.
+### 🛠 Технологии
 
-## Структура проекта
+| Frontend | Backend |
+|----------|---------|
+| React 19 | Node.js + Express |
+| TypeScript 5.8 | SQLite |
+| Vite 6 | Telegram Bot API |
+| Tailwind CSS | Telegram Stars |
+| @tma.js/sdk-react | |
+
+---
+
+## 🇬🇧 About
+
+AVYX is a gamified marketplace for designers. Find orders, earn money, and grow through missions and achievements.
+
+### ✨ Features
+
+- **Order Marketplace** — UI/UX, logos, illustrations, graphics
+- **Gamification** — XP, levels, badges, streaks
+- **Sprints** — daily creative challenges
+- **Escrow** — secure deals via Telegram Stars
+- **Telegram Stars** — in-app payments
+
+### 👥 User Types
+
+| Type | Description |
+|------|-------------|
+| 🎨 Designer | Order executors |
+| 💼 Entrepreneur | Individual clients |
+| 🏢 Company | Business clients |
+
+### 🚀 Quick Start
+
+```bash
+# Clone
+git clone https://github.com/ibuildrun/avyx.git
+cd avyx
+
+# Frontend
+npm install
+npm run dev
+
+# Backend
+cd backend
+npm install
+npm run dev
+```
+
+### 🐳 Docker
+
+```bash
+# Production
+docker-compose up
+
+# Development
+docker-compose --profile dev up
+```
+
+### 📱 Testing in Telegram
+
+```bash
+# HTTPS tunnel
+tuna http 3000
+```
+
+### 🛠 Tech Stack
+
+| Frontend | Backend |
+|----------|---------|
+| React 19 | Node.js + Express |
+| TypeScript 5.8 | SQLite |
+| Vite 6 | Telegram Bot API |
+| Tailwind CSS | Telegram Stars |
+| @tma.js/sdk-react | |
+
+---
+
+## 📁 Project Structure
 
 ```
-src/
-├── api/            # API абстракция (mock → backend)
-├── providers/      # TelegramProvider (SDK интеграция)
-├── components/     # UI компоненты
-├── screens/        # Экраны приложения
-└── _legacy/        # Бэкап оригинального дизайна
+avyx/
+├── src/                    # Frontend source
+│   ├── api/                # API client
+│   ├── components/         # UI components
+│   ├── providers/          # Telegram SDK
+│   └── screens/            # App screens
+├── backend/                # Backend source
+│   ├── src/
+│   │   ├── api/            # REST API
+│   │   ├── bot/            # Telegram bot
+│   │   ├── auth/           # Auth middleware
+│   │   └── db/             # SQLite database
+│   └── Dockerfile
+├── docker-compose.yml
+└── Dockerfile
 ```
 
-## Скрипты
+## 📜 Scripts
 
-| Команда | Описание |
-|---------|----------|
-| `npm run dev` | Dev-сервер (localhost:3000) |
-| `npm run build` | Production сборка |
-| `npm run preview` | Превью сборки |
-| `npm run type-check` | Проверка TypeScript |
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Production build |
+| `npm run type-check` | TypeScript check |
+| `cd backend && npm run dev` | Start backend |
 
-## Технологии
+## 📄 License
 
-- **React 19** + **TypeScript 5.8**
-- **Vite 6** — сборка
-- **Tailwind CSS** — стили
-- **@tma.js/sdk-react** — Telegram Web App SDK
-- **Docker** + **nginx** — деплой
-
-## Лицензия
-
-MIT — см. [LICENSE](LICENSE)
+MIT — see [LICENSE](LICENSE)
 
 ---
 
 <div align="center">
-  Made with love by AVYX Team
+
+**[Open AVYX in Telegram →](https://t.me/anyx_robot)**
+
+Made with ❤️ by AVYX Team
+
 </div>
