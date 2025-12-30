@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { generateTaskDescription } from '../services/gemini';
 
 interface CreateTaskScreenProps {
   onBack: () => void;
@@ -8,7 +7,6 @@ interface CreateTaskScreenProps {
 
 const CreateTaskScreen: React.FC<CreateTaskScreenProps> = ({ onBack }) => {
   const [step, setStep] = useState(1);
-  const [isGenerating, setIsGenerating] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     category: 'UI/UX',
@@ -22,14 +20,6 @@ const CreateTaskScreen: React.FC<CreateTaskScreenProps> = ({ onBack }) => {
     e.preventDefault();
     alert('Заказ опубликован успешно!');
     onBack();
-  };
-
-  const handleAiHelp = async () => {
-    if (!formData.title) return;
-    setIsGenerating(true);
-    const aiText = await generateTaskDescription(formData.title, formData.category);
-    setFormData({ ...formData, description: aiText || '' });
-    setIsGenerating(false);
   };
 
   return (
@@ -131,14 +121,6 @@ const CreateTaskScreen: React.FC<CreateTaskScreenProps> = ({ onBack }) => {
              <div className="space-y-2">
                <div className="flex justify-between items-center mb-1">
                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Описание задачи</label>
-                 <button 
-                   type="button"
-                   disabled={isGenerating || !formData.title}
-                   onClick={handleAiHelp}
-                   className={`text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all ${isGenerating ? 'bg-orange-50 text-[#FF7F50] animate-pulse' : 'bg-teal-50 text-teal-600 border border-teal-100 hover:bg-teal-100'}`}
-                 >
-                   {isGenerating ? '✨ Пишу ТЗ...' : '✨ Магия AI'}
-                 </button>
                </div>
                <textarea 
                  rows={8}

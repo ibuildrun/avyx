@@ -1,7 +1,6 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Task, User } from '../types';
-import { generateTaskAnalysis, generatePromoCode } from '../services/gemini';
 import Avatar from '../components/Avatar';
 import SmartImage from '../components/SmartImage';
 
@@ -30,21 +29,11 @@ const Icons = {
 };
 
 const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({ task, user, onUpdateUser, onBack }) => {
-  const [aiTips, setAiTips] = useState<string[]>([]);
-  const [loadingTips, setLoadingTips] = useState(false);
   const [gameStatus, setGameStatus] = useState<GameStatus>(user.appliedTasks?.includes(task.id) ? 'submitted' : 'idle');
   const [promoCode, setPromoCode] = useState<string | null>(null);
   const [showEscrowInfo, setShowEscrowInfo] = useState(false);
 
-  useEffect(() => {
-    const fetchTips = async () => {
-      setLoadingTips(true);
-      const analysis = await generateTaskAnalysis(task.description);
-      setAiTips(analysis.tips);
-      setLoadingTips(false);
-    };
-    fetchTips();
-  }, [task]);
+  const generatePromoCode = () => Math.floor(10000 + Math.random() * 90000).toString();
 
   const parseBudget = (budgetString: string): number => {
     return parseInt(budgetString.replace(/[^0-9]/g, ''), 10) || 0;
@@ -248,29 +237,6 @@ const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({ task, user, onUpdat
            <p className="text-gray-500 text-sm leading-relaxed font-medium">
              {task.description}
            </p>
-        </div>
-
-        {/* AI Tips Section */}
-        <div className="bg-orange-50/50 p-6 rounded-[40px] border-2 border-orange-100 relative overflow-hidden">
-          <div className="flex items-center gap-4 mb-5">
-            <span className="text-3xl">✨</span>
-            <h3 className="font-black text-[#FF7F50] uppercase tracking-tighter text-lg">AI-Ассистент AVYX</h3>
-          </div>
-          {loadingTips ? (
-            <div className="space-y-3">
-              <div className="h-3 bg-white rounded animate-pulse w-full"></div>
-              <div className="h-3 bg-white rounded animate-pulse w-5/6"></div>
-            </div>
-          ) : (
-            <ul className="space-y-4">
-              {aiTips.map((tip, idx) => (
-                <li key={idx} className="text-xs text-orange-900 font-bold flex items-start gap-4">
-                  <span className="w-2 h-2 rounded-full bg-[#FF7F50] mt-1 flex-shrink-0"></span>
-                  {tip}
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
 
         {/* Action Buttons */}
