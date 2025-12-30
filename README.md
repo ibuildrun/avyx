@@ -5,8 +5,10 @@
 **Telegram Mini App для дизайнеров и художников**
 
 [![Open in Telegram](https://img.shields.io/badge/Open%20App-Telegram-0088cc?style=for-the-badge&logo=telegram)](https://t.me/anyx_robot)
+[![Demo](https://img.shields.io/badge/Demo-GitHub%20Pages-222?style=for-the-badge&logo=github)](https://ibuildrun.github.io/avyx/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![CI](https://github.com/ibuildrun/avyx/actions/workflows/ci.yml/badge.svg)](https://github.com/ibuildrun/avyx/actions/workflows/ci.yml)
+[![Deploy](https://github.com/ibuildrun/avyx/actions/workflows/deploy.yml/badge.svg)](https://github.com/ibuildrun/avyx/actions/workflows/deploy.yml)
 [![Release](https://img.shields.io/github/v/release/ibuildrun/avyx?include_prereleases)](https://github.com/ibuildrun/avyx/releases)
 
 [🇷🇺 Русский](#-о-проекте) | [🇬🇧 English](#-about)
@@ -186,7 +188,7 @@ MIT — see [LICENSE](LICENSE)
 
 <div align="center">
 
-**[Open AVYX in Telegram →](https://t.me/anyx_robot)**
+**[Open AVYX in Telegram →](https://t.me/anyx_robot)** | **[Demo →](https://ibuildrun.github.io/avyx/)**
 
 Made with ❤️ by AVYX Team
 
