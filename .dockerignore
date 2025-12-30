@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.github
+.kiro
+.vscode
+*.log
+*.local
+.env*
+!.env.local.example
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+LICENSE
