@@ -65,8 +65,11 @@ const ReportModal: React.FC<ReportModalProps> = ({
         className="absolute inset-0 bg-black/20 backdrop-blur-sm" 
         onClick={onClose}
       />
-      <div className="relative w-full max-w-[428px] bg-white rounded-t-[48px] p-8 shadow-2xl animate-in slide-in-from-bottom duration-500">
-        <div className="w-12 h-1.5 bg-gray-100 rounded-full mx-auto mb-8" />
+      <div className="relative w-full max-w-[428px] bg-white rounded-t-[48px] shadow-2xl animate-in slide-in-from-bottom duration-500 max-h-[85vh] flex flex-col">
+        <div className="p-8 pb-0 flex-shrink-0">
+          <div className="w-12 h-1.5 bg-gray-100 rounded-full mx-auto mb-8" />
+        </div>
+        <div className="overflow-y-auto flex-1 px-8 pb-8">
         
         {success ? (
           <div className="flex flex-col items-center text-center py-8">
@@ -149,6 +152,7 @@ const ReportModal: React.FC<ReportModalProps> = ({
             </div>
           </>
         )}
+        </div>
       </div>
     </div>
   );
