@@ -8,10 +8,15 @@ interface SmartImageProps {
 }
 
 const SmartImage: React.FC<SmartImageProps> = ({ src, alt = "", className = "", containerClassName = "" }) => {
-  const [status, setStatus] = useState<'loading' | 'loaded' | 'error'>(src ? 'loading' : 'error');
+  const [status, setStatus] = useState<'loading' | 'loaded' | 'error'>(!src ? 'error' : 'loading');
 
   const handleLoad = () => setStatus('loaded');
   const handleError = () => setStatus('error');
+
+  // Reset status when src changes
+  React.useEffect(() => {
+    setStatus(!src ? 'error' : 'loading');
+  }, [src]);
 
   return (
     <div className={`relative overflow-hidden bg-gray-50 ${containerClassName}`}>
@@ -20,20 +25,12 @@ const SmartImage: React.FC<SmartImageProps> = ({ src, alt = "", className = "", 
       )}
 
       {status === 'error' && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#F5F5F5] text-gray-300">
-          <div className="relative">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-40">
-              <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
-              <circle cx="9" cy="9" r="2"/>
-              <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
-            </svg>
-            <div className="absolute -top-1 -right-1">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF7F50" strokeWidth="3">
-                <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/>
-              </svg>
-            </div>
-          </div>
-          <span className="text-[9px] font-black uppercase tracking-[0.2em] mt-3 opacity-30">AVYX Design Ref</span>
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-orange-50 to-orange-100 text-[#FF7F50]">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60">
+            <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+            <circle cx="9" cy="9" r="2"/>
+            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+          </svg>
         </div>
       )}
 

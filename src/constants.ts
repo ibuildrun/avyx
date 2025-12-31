@@ -41,7 +41,7 @@ export const MOCK_NOTIFICATIONS: Notification[] = [
 
 export const MOCK_SPRINT: Sprint = {
   id: 'sprint_1',
-  title: 'Иконка идеального кофе ☕',
+  title: 'Иконка идеального кофе',
   description: 'Нарисуй самую уютную иконку кофе за 15 минут. Используй мягкие цвета и плавные линии.',
   timeLimitMinutes: 15,
   endsAt: new Date(Date.now() + 1000 * 60 * 60 * 4).toISOString(),
@@ -51,7 +51,7 @@ export const MOCK_SPRINT: Sprint = {
       userId: 'u1',
       userNickname: 'anna_design',
       userAvatar: 'https://i.pravatar.cc/150?u=1',
-      image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400',
+      image: 'https://picsum.photos/seed/coffee1/400/400',
       likes: 42
     },
     {
@@ -59,7 +59,7 @@ export const MOCK_SPRINT: Sprint = {
       userId: 'u2',
       userNickname: 'daria_art',
       userAvatar: 'https://i.pravatar.cc/150?u=2',
-      image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400',
+      image: 'https://picsum.photos/seed/coffee2/400/400',
       likes: 38
     }
   ]
@@ -74,7 +74,7 @@ export const MOCK_TASKS: Task[] = [
     deadline: '3 дня',
     difficulty: 3,
     description: 'Нужен чистый, минималистичный UI для приложения локальной кофейни. Всего 5 экранов.',
-    image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800',
+    image: 'https://picsum.photos/seed/task1/800/600',
     author: 'Иван Петров',
     authorRating: 4.8,
     authorType: 'entrepreneur',
@@ -91,7 +91,7 @@ export const MOCK_TASKS: Task[] = [
     deadline: '7 дней',
     difficulty: 5,
     description: 'Логотип, типографика и цветовая палитра для нового стартапа в сфере ИИ.',
-    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800',
+    image: 'https://picsum.photos/seed/task2/800/600',
     author: 'ООО "Нексус"',
     authorRating: 5.0,
     authorType: 'company',
@@ -128,7 +128,7 @@ export const MOCK_SHOWCASE: CompletedWork[] = [
     id: 'w1',
     title: 'Minimalist Coffee App',
     category: 'UI/UX',
-    image: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=800',
+    image: 'https://picsum.photos/seed/work1/800/600',
     author: 'daria_design',
     authorAvatar: 'https://i.pravatar.cc/150?u=daria',
     likes: 1240,
