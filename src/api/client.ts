@@ -422,6 +422,24 @@ export const api = {
   // Admin endpoints
   admin: {
     async checkAccess(): Promise<ApiResponse<{ isAdmin: boolean }>> {
+      // Check admin access via initData user ID
+      if (_initDataRaw) {
+        try {
+          // Parse initData to get user ID
+          const params = new URLSearchParams(_initDataRaw);
+          const userStr = params.get('user');
+          if (userStr) {
+            const user = JSON.parse(decodeURIComponent(userStr));
+            const adminIds = [5538805929]; // Admin Telegram IDs
+            if (adminIds.includes(user.id)) {
+              return { success: true, data: { isAdmin: true } };
+            }
+          }
+        } catch {
+          // Ignore parse errors
+        }
+      }
+      
       if (!useRealBackend()) {
         return { success: true, data: { isAdmin: false } };
       }
