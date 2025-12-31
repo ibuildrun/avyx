@@ -54,8 +54,8 @@ services:
       sh -c "
         apk add --no-cache curl bash &&
         curl -sSL https://get.tuna.am | bash &&
-        echo 'Tuna tunnel starting on port 3000...' &&
-        tuna http web-dev:3000 --token=${TUNA_TOKEN}
+        echo 'Tuna tunnel starting on avyx.ru.tuna.am...' &&
+        tuna http web-dev:3000 --subdomain=avyx --token=${TUNA_TOKEN}
       "
     depends_on:
       - web-dev
